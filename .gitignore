@@ -1,2 +1,26 @@
-/target
+# Rust build output
+/target/
+
+# rhelings runtime state -- local progress on whatever machine runs it,
+# never something to commit
 .rhelings-state.txt
+
+# Editor / OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Environment and secrets
+.env
+.env.*
+*.secret
+*.secrets
+secrets/
+
+# Claude Code local settings (project-specific permissions, not shared)
+.claude/settings.local.json
