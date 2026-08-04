@@ -1,0 +1,64 @@
+# Exercise manifest for rhelings.
+#
+# Each [[exercises]] entry maps to a directory at exercises/<dir>/<name>/
+# containing task.md, check.sh, hint.md, solution.md, and optionally setup.sh.
+#
+# domain: matches the 9 official RHCSA (EX200) objective categories, so progress
+# can be reported per-domain later.
+# kind: "standard" (default) or "reboot" -- reboot exercises verify state persisted
+# across a reboot by comparing /proc/sys/kernel/random/boot_id before/after.
+# watch_file: reserved for a future v2 auto-recheck-on-save feature. Unused in v1.
+
+welcome_message = """
+Welcome to rhelings.
+
+This tool changes real system state on the machine it runs on: SELinux modes and
+contexts, and in later milestones LVM volumes, firewalld rules, users, and boot
+configuration. There is no sandbox and no simulation layer.
+
+Run this ONLY on a disposable VM you can destroy and rebuild -- never on a system
+you care about. You should be running as root.
+"""
+
+final_message = """
+All current exercises done.
+
+This milestone only covers SELinux -- the RHCSA domain flagged confidence-1 in the
+2026-07-25 diagnostic. LVM, podman, boot recovery, and the rest of the objective
+list are follow-up milestones.
+"""
+
+[[exercises]]
+name = "01_enforcing_permissive"
+dir = "06_selinux"
+domain = "Manage security"
+
+[[exercises]]
+name = "02_persistent_config"
+dir = "06_selinux"
+domain = "Manage security"
+
+[[exercises]]
+name = "03_restorecon"
+dir = "06_selinux"
+domain = "Manage security"
+
+[[exercises]]
+name = "04_semanage_fcontext"
+dir = "06_selinux"
+domain = "Manage security"
+
+[[exercises]]
+name = "05_semanage_port"
+dir = "06_selinux"
+domain = "Manage security"
+
+[[exercises]]
+name = "06_setsebool"
+dir = "06_selinux"
+domain = "Manage security"
+
+[[exercises]]
+name = "07_avc_denial_diagnosis"
+dir = "06_selinux"
+domain = "Manage security"
