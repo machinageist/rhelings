@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
-# Idempotent: makes sure the rhelings-podman test user exists with a live user
-# systemd instance/runtime dir, then removes any leftover writer/reader
-# containers and the rhelings-vol volume itself, so the exercise starts with no
-# volume at all. Containers go first -- a volume still in use cannot be removed.
+# Idempotent: installs podman, makes sure the rhelings-podman test user exists
+# with a live user systemd instance/runtime dir, then removes any leftover
+# writer/reader containers and the rhelings-vol volume itself, so the exercise
+# starts with no volume at all. Containers go first -- a volume still in use
+# cannot be removed.
 set -euo pipefail
+
+dnf install -y podman >/dev/null 2>&1 || true
 
 id rhelings-podman >/dev/null 2>&1 || useradd -m rhelings-podman
 loginctl enable-linger rhelings-podman >/dev/null 2>&1 || true

@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-# Idempotent: makes sure the rhelings-podman test user exists with a live user
-# systemd instance/runtime dir, creates the host directory the bind mount will
-# point at, and removes any leftover rhelings-bind container and previously
-# written file from an earlier attempt.
+# Idempotent: installs podman, makes sure the rhelings-podman test user exists
+# with a live user systemd instance/runtime dir, creates the host directory the
+# bind mount will point at, and removes any leftover rhelings-bind container and
+# previously written file from an earlier attempt.
 set -euo pipefail
+
+dnf install -y podman >/dev/null 2>&1 || true
 
 id rhelings-podman >/dev/null 2>&1 || useradd -m rhelings-podman
 loginctl enable-linger rhelings-podman >/dev/null 2>&1 || true

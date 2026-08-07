@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-# Idempotent: makes sure the rhelings-podman test user exists with a live
-# user systemd instance/runtime dir (needed for rootless podman to work at
-# all outside an interactive login), and removes any leftover rhelings-demo
-# container from a previous attempt.
+# Idempotent: installs podman, makes sure the rhelings-podman test user exists
+# with a live user systemd instance/runtime dir (needed for rootless podman to
+# work at all outside an interactive login), and removes any leftover
+# rhelings-demo container from a previous attempt.
 set -euo pipefail
+
+dnf install -y podman >/dev/null 2>&1 || true
 
 id rhelings-podman >/dev/null 2>&1 || useradd -m rhelings-podman
 loginctl enable-linger rhelings-podman >/dev/null 2>&1 || true
