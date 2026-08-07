@@ -10,13 +10,16 @@ inspecting live system state.
 ## ⚠️ Warning: this tool changes real system state
 
 There is no sandbox and nothing here is simulated. Every exercise runs actual
-commands against the actual machine `rhelings` is launched on: SELinux modes and
-contexts today, and in later milestones LVM volumes, firewalld rules, users, and
-boot configuration.
+commands against the actual machine `rhelings` is launched on: it partitions
+disks, rewrites `/etc/fstab`, creates LVM volumes and users, changes SELinux
+modes and contexts, edits firewall and sshd config -- and in the boot-recovery
+exercises it deliberately breaks the machine so that it will not boot until you
+repair it.
 
 **Run this only on a disposable VM you can destroy and rebuild.** Never on a
 workstation, a shared box, or anything you'd be upset to lose. Run it as root --
-almost every check needs root-only tools (`semanage`, `restorecon`, `setsebool`).
+almost every check needs root-only tools (`semanage`, `restorecon`, `lvcreate`,
+`firewall-cmd`).
 
 A loud version of this warning is shown on every launch and requires pressing
 Enter to continue. That prompt is the only safety mechanism this tool has.
@@ -38,11 +41,23 @@ The whole `exercises/` tree is embedded into the compiled binary, so a single
 release build can be copied onto a scratch VM without needing git or this repo
 present there.
 
-**Current scope: SELinux only** -- the domain most commonly under-covered
-before RHCSA prep starts (enforcing/permissive, persistent config, `restorecon`,
-`semanage fcontext`, `semanage port`, booleans, and diagnosing an AVC denial).
-LVM, podman/containers, boot-level recovery, and the rest of the EX200 objective
-list are planned follow-ups, not yet implemented.
+**Current scope: 82 exercises across 16 topics**, ordered as a learning path
+rather than by exam objective -- `00_essentials` assumes nothing, and later
+topics assume you've worked the earlier ones:
+
+| | | | |
+|---|---|---|---|
+| `00_essentials` | `04_swap` | `08_networking` | `12_firewalld` |
+| `01_users_groups` | `05_lvm` | `09_systemd_services` | `13_network_storage` |
+| `02_permissions` | `06_selinux` | `10_journald_logging` | `14_boot_recovery` |
+| `03_storage_partitions` | `07_packages_dnf` | `11_ssh` | `15_podman` |
+
+Every exercise carries a `domain` matching one of the nine official EX200
+objective categories, so progress can be reported per-domain later. The one
+category with no coverage yet is "Create simple shell scripts."
+
+See [`LAB_SETUP.md`](LAB_SETUP.md) for building the disposable VM this is meant
+to be run on.
 
 ---
 
@@ -66,7 +81,9 @@ rhelings/
 ├── LICENSE                      # MIT, forked from rustlings -- see file for attribution
 ├── exercises/
 │   ├── exercises.toml            # manifest: name, dir, domain, kind per exercise
-│   └── 01_selinux/
+│   ├── 00_essentials/            # 16 topic dirs, 00_essentials .. 15_podman
+│   ├── ...
+│   └── 06_selinux/
 │       └── 01_enforcing_permissive/
 │           ├── task.md           # the prompt, shown in the TUI
 │           ├── setup.sh          # optional: arranges the starting broken state
@@ -115,12 +132,16 @@ On the VM, as root:
 ./rhelings
 ```
 
-Some exercises need `semanage`/`restorecon`/`matchpathcon`, which live in
+The SELinux exercises need `semanage`/`restorecon`/`matchpathcon`, which live in
 `policycoreutils-python-utils` and aren't always present on a minimal install:
 
 ```sh
 dnf install -y policycoreutils-python-utils
 ```
+
+Other topics pull their own dependencies in from `setup.sh` on first run
+(`nfs-utils`, `samba`, `autofs`, `podman`), so they need the VM to have package
+repos reachable. Full VM build instructions are in [`LAB_SETUP.md`](LAB_SETUP.md).
 
 ### Locally, for development
 
@@ -129,8 +150,8 @@ cargo run
 ```
 
 Runs fine on any Linux box for navigating the UI and editing exercise content,
-but the SELinux exercises' `check.sh`/`setup.sh` scripts assume RHEL-family
-tooling and will simply fail (not misbehave) on a non-RHEL system like Arch.
+but the exercises' `check.sh`/`setup.sh` scripts assume RHEL-family tooling and
+will simply fail (not misbehave) on a non-RHEL system like Arch.
 
 ```sh
 cargo test    # manifest parsing, state-file format, embedded-file lookups --
