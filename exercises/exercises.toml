@@ -3,8 +3,13 @@
 # Each [[exercises]] entry maps to a directory at exercises/<dir>/<name>/
 # containing task.md, check.sh, hint.md, solution.md, and optionally setup.sh.
 #
+# Order in this file is the order exercises are presented, so it runs roughly
+# easiest-to-hardest rather than by objective category.
+#
 # domain: matches the 9 official RHCSA (EX200) objective categories, so progress
-# can be reported per-domain later.
+# can be reported per-domain later. Use only the exact strings from that list --
+# a topic directory can span more than one domain (02_permissions splits between
+# essential tools and file systems, for instance).
 # kind: "standard" (default) or "reboot" -- reboot exercises verify state persisted
 # across a reboot by comparing /proc/sys/kernel/random/boot_id before/after.
 # watch_file: reserved for a future v2 auto-recheck-on-save feature. Unused in v1.
@@ -23,10 +28,173 @@ you care about. You should be running as root.
 final_message = """
 All current exercises done.
 
-This milestone only covers SELinux -- the RHCSA domain flagged confidence-1 in the
-2026-07-25 diagnostic. LVM, podman, boot recovery, and the rest of the objective
-list are follow-up milestones.
+That is 82 exercises across 16 topics: essential tools, users and groups,
+permissions, partitions, swap, LVM, SELinux, packages, networking, systemd,
+journald, SSH, firewalld, network storage, boot recovery, and containers.
+
+Finishing them is not the same as being ready. EX200 is 2.5 hours of doing, not
+recognising -- rebuild the VM and run the set again against a clock.
 """
+
+[[exercises]]
+name = "01_navigation_and_help"
+dir = "00_essentials"
+domain = "Understand and use essential tools"
+
+[[exercises]]
+name = "02_redirection_and_pipes"
+dir = "00_essentials"
+domain = "Understand and use essential tools"
+
+[[exercises]]
+name = "03_edit_a_file"
+dir = "00_essentials"
+domain = "Understand and use essential tools"
+
+[[exercises]]
+name = "04_tar_archives"
+dir = "00_essentials"
+domain = "Understand and use essential tools"
+
+[[exercises]]
+name = "05_sudo_basics"
+dir = "00_essentials"
+domain = "Understand and use essential tools"
+
+[[exercises]]
+name = "01_create_user_with_uid"
+dir = "01_users_groups"
+domain = "Manage users and groups"
+
+[[exercises]]
+name = "02_create_group"
+dir = "01_users_groups"
+domain = "Manage users and groups"
+
+[[exercises]]
+name = "03_secondary_group_membership"
+dir = "01_users_groups"
+domain = "Manage users and groups"
+
+[[exercises]]
+name = "04_modify_account"
+dir = "01_users_groups"
+domain = "Manage users and groups"
+
+[[exercises]]
+name = "05_delete_user_cleanup"
+dir = "01_users_groups"
+domain = "Manage users and groups"
+
+[[exercises]]
+name = "01_ownership"
+dir = "02_permissions"
+domain = "Understand and use essential tools"
+
+[[exercises]]
+name = "02_permission_bits"
+dir = "02_permissions"
+domain = "Understand and use essential tools"
+
+[[exercises]]
+name = "03_setgid_shared_directory"
+dir = "02_permissions"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "04_sticky_bit"
+dir = "02_permissions"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "05_acl_single_grant"
+dir = "02_permissions"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "06_acl_default_inherit"
+dir = "02_permissions"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "01_fdisk_new_partition"
+dir = "03_storage_partitions"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "02_parted_gpt_partition"
+dir = "03_storage_partitions"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "03_format_xfs"
+dir = "03_storage_partitions"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "04_format_ext4"
+dir = "03_storage_partitions"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "05_persistent_mount_by_uuid"
+dir = "03_storage_partitions"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "01_swapfile_basic"
+dir = "04_swap"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "02_swap_on_loop_partition"
+dir = "04_swap"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "03_diagnose_inactive_swap"
+dir = "04_swap"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "04_remove_swap_cleanly"
+dir = "04_swap"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "05_swap_priority"
+dir = "04_swap"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "01_pvcreate_vgcreate"
+dir = "05_lvm"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "02_lvcreate_and_mount"
+dir = "05_lvm"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "03_lvextend_xfs_growfs"
+dir = "05_lvm"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "04_lvextend_ext4_resize2fs"
+dir = "05_lvm"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "05_diagnose_forgot_to_grow_fs"
+dir = "05_lvm"
+domain = "Configure local storage"
+
+[[exercises]]
+name = "06_vgextend_new_pv"
+dir = "05_lvm"
+domain = "Configure local storage"
 
 [[exercises]]
 name = "01_enforcing_permissive"
@@ -62,3 +230,221 @@ domain = "Manage security"
 name = "07_avc_denial_diagnosis"
 dir = "06_selinux"
 domain = "Manage security"
+
+[[exercises]]
+name = "01_install_package"
+dir = "07_packages_dnf"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "02_remove_package"
+dir = "07_packages_dnf"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "03_query_provides"
+dir = "07_packages_dnf"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "04_add_local_repo"
+dir = "07_packages_dnf"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "05_history_undo"
+dir = "07_packages_dnf"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "01_static_ip_profile"
+dir = "08_networking"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "02_dns_config"
+dir = "08_networking"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "03_activate_and_verify"
+dir = "08_networking"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "04_hosts_resolution"
+dir = "08_networking"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "05_static_hostname"
+dir = "08_networking"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "01_enable_start"
+dir = "09_systemd_services"
+domain = "Operate running systems"
+
+[[exercises]]
+name = "02_stop_disable"
+dir = "09_systemd_services"
+domain = "Operate running systems"
+
+[[exercises]]
+name = "03_restart_apply"
+dir = "09_systemd_services"
+domain = "Operate running systems"
+
+[[exercises]]
+name = "04_add_dependency"
+dir = "09_systemd_services"
+domain = "Operate running systems"
+
+[[exercises]]
+name = "05_broken_unit_troubleshoot"
+dir = "09_systemd_services"
+domain = "Operate running systems"
+
+[[exercises]]
+name = "01_persistent_storage"
+dir = "10_journald_logging"
+domain = "Operate running systems"
+
+[[exercises]]
+name = "02_filter_by_priority"
+dir = "10_journald_logging"
+domain = "Operate running systems"
+
+[[exercises]]
+name = "03_filter_by_unit"
+dir = "10_journald_logging"
+domain = "Operate running systems"
+
+[[exercises]]
+name = "04_filter_by_time_range"
+dir = "10_journald_logging"
+domain = "Operate running systems"
+
+[[exercises]]
+name = "05_max_journal_size"
+dir = "10_journald_logging"
+domain = "Operate running systems"
+
+[[exercises]]
+name = "01_generate_keypair"
+dir = "11_ssh"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "02_authorized_keys"
+dir = "11_ssh"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "03_permit_root_login"
+dir = "11_ssh"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "04_password_authentication"
+dir = "11_ssh"
+domain = "Deploy, configure, and maintain systems"
+
+[[exercises]]
+name = "01_open_port"
+dir = "12_firewalld"
+domain = "Manage security"
+
+[[exercises]]
+name = "02_open_service"
+dir = "12_firewalld"
+domain = "Manage security"
+
+[[exercises]]
+name = "03_port_forwarding"
+dir = "12_firewalld"
+domain = "Manage security"
+
+[[exercises]]
+name = "04_rich_rule_source_restriction"
+dir = "12_firewalld"
+domain = "Manage security"
+
+[[exercises]]
+name = "05_zone_source_binding"
+dir = "12_firewalld"
+domain = "Manage security"
+
+[[exercises]]
+name = "01_nfs_server_export"
+dir = "13_network_storage"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "02_nfs_manual_mount"
+dir = "13_network_storage"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "03_nfs_fstab_persistent"
+dir = "13_network_storage"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "04_autofs_indirect"
+dir = "13_network_storage"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "05_smb_share_mount"
+dir = "13_network_storage"
+domain = "Create and configure file systems"
+
+[[exercises]]
+name = "01_default_boot_target"
+dir = "14_boot_recovery"
+domain = "Operate running systems"
+kind = "reboot"
+
+[[exercises]]
+name = "02_fix_boot_failure_bad_fstab"
+dir = "14_boot_recovery"
+domain = "Operate running systems"
+kind = "reboot"
+
+[[exercises]]
+name = "03_forgotten_root_password"
+dir = "14_boot_recovery"
+domain = "Operate running systems"
+kind = "reboot"
+
+[[exercises]]
+name = "01_run_basic_container"
+dir = "15_podman"
+domain = "Manage containers"
+
+[[exercises]]
+name = "02_bind_mount_storage"
+dir = "15_podman"
+domain = "Manage containers"
+
+[[exercises]]
+name = "03_named_volume_storage"
+dir = "15_podman"
+domain = "Manage containers"
+
+[[exercises]]
+name = "04_quadlet_systemd_service"
+dir = "15_podman"
+domain = "Manage containers"
+
+[[exercises]]
+name = "05_image_pull_inspect"
+dir = "15_podman"
+domain = "Manage containers"
+
+[[exercises]]
+name = "06_publish_port_service"
+dir = "15_podman"
+domain = "Manage containers"
